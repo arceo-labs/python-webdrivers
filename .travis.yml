@@ -1,17 +1,21 @@
 ---
 language: python
-os:
-  - linux
-  - osx
+matrix:
+  include:
+    - os: linux
+      python: 3.6
+    - os: osx
+      language: generic
+      env: PYTHON=3.6
 branches:
   only:
     - master
-python:
-  - 3.6
 addons:
   chrome: stable
 cache:
   - pip
+before_install:
+  - scripts/travis-prep-osx.sh
 install:
   - pip install pipenv
   - pipenv install --dev

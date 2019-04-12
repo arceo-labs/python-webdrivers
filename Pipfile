@@ -16,4 +16,4 @@ selenium = "*"
 python_version = "3.6"
 
 [scripts]
-test = "pytest --cov=webservers --cov-report=term-missing:skip-covered tests/"
+test = "pytest --cov=webdrivers tests/"

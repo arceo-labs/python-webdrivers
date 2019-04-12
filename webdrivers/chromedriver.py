@@ -89,13 +89,19 @@ class Chromedriver(CommonDriver):
         raise NotImplementedError
 
     def chrome_on_linux(self):
-        raise NotImplementedError
+        if self.browser_binary():
+            log.debug(f"Browser executable: {self.browser_binary()}")
+            return shlex.quote(self.browser_binary())
+
+        # Default to Google Chrome
+        executable = sh("which google-chrome").strip()
+        log.debug(f"Browser executable: {executable}")
+        return sh(f"{executable} --product-version").strip()
 
     def chrome_on_mac(self):
-        binary = self.browser_binary()
-        if binary:
-            log.debug(f"Browser executable: {binary}")
-            return str(sh(f"{shlex.quote(binary)} --version")).strip()
+        if self.browser_binary():
+            log.debug(f"Browser executable: {self.browser_binary()}")
+            return str(sh(f"{shlex.quote(self.browser_binary())} --version")).strip()
 
         # Default to Google Chrome
         executable = shlex.quote('/Applications/Google Chrome.app/Contents/MacOS/Google Chrome')
