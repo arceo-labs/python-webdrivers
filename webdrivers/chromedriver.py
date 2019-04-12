@@ -24,15 +24,15 @@ class Chromedriver(CommonDriver):
         log.debug(f"Current {self.binary()} version: {ver}")
 
         # Matches 2.46, 2.46.628411 and 73.0.3683.75
-        return self.normalize(re.search(r'\d+\.\d+(\.\d+)?(\.\d+)?', ver).group())
+        return self.normalize(re.search(r"\d+\.\d+(\.\d+)?(\.\d+)?", ver).group())
 
     def latest_version(self):
         if not self.is_site_available():
             raise Exception("Can not reach site")
 
         # Versions before 70 do not have a LATEST_RELEASE file
-        if self.release_version() < self.normalize('70.0.3538'):
-            return self.normalize('2.46')
+        if self.release_version() < self.normalize("70.0.3538"):
+            return self.normalize("2.46")
 
         # Latest webdriver release for installed Chrome version
         release_file = f"LATEST_RELEASE_{self.release_version()}"
@@ -43,20 +43,30 @@ class Chromedriver(CommonDriver):
     # Private
 
     def file_name(self):
-        return 'chromedriver.exe' if self.platform() == 'win' else 'chromedriver'
+        return "chromedriver.exe" if self.platform() == "win" else "chromedriver"
 
     def base_url(self):
-        return 'https://chromedriver.storage.googleapis.com'
+        return "https://chromedriver.storage.googleapis.com"
 
     def downloads(self):
         if self.all_downloads:
-            log.debug(f"Versions previously located on downloads site: {self.all_downloads.keys()}")
+            log.debug(
+                f"Versions previously located on downloads site: {self.all_downloads.keys()}"
+            )
 
         doc = html.fromstring(self.get(self.base_url()))
-        items = [item.text
-                 for item in doc.cssselect('Contents Key')
-                 if self.platform() in item.text]
-        ds = dict((self.normalize(re.search('^[^/]+', item).group()), f"{self.base_url()}/{item}") for item in items)
+        items = [
+            item.text
+            for item in doc.cssselect("Contents Key")
+            if self.platform() in item.text
+        ]
+        ds = dict(
+            (
+                self.normalize(re.search("^[^/]+", item).group()),
+                f"{self.base_url()}/{item}",
+            )
+            for item in items
+        )
         log.debug(f"Versions now located on downloads site: {ds.keys()}")
         self.all_downloads.update(ds)
         return self.all_downloads
@@ -66,15 +76,15 @@ class Chromedriver(CommonDriver):
     # @example
     #   73.0.3683.75 -> 73.0.3683
     def release_version(self):
-        return re.search(r'\d+\.\d+\.\d+', self.chrome_version()).group()
+        return re.search(r"\d+\.\d+\.\d+", self.chrome_version()).group()
 
     def chrome_version(self):
         platform = self.platform()
-        if platform == 'win':
+        if platform == "win":
             ver = self.chrome_on_windows()
-        elif platform.startswith('linux'):
+        elif platform.startswith("linux"):
             ver = self.chrome_on_linux()
-        elif platform == 'mac':
+        elif platform == "mac":
             ver = self.chrome_on_mac()
         else:
             raise NotImplementedError("Your OS is not supported by webdrivers plugin.")
@@ -83,7 +93,7 @@ class Chromedriver(CommonDriver):
             raise Exception("Failed to find Chrome binary or its version.")
 
         # Google Chrome 73.0.3683.75 -> 73.0.3683.75
-        return re.search(r'\d+\.\d+\.\d+\.\d+', ver).group()
+        return re.search(r"\d+\.\d+\.\d+\.\d+", ver).group()
 
     def chrome_on_windows(self):
         raise NotImplementedError
@@ -104,7 +114,9 @@ class Chromedriver(CommonDriver):
             return str(sh(f"{shlex.quote(self.browser_binary())} --version")).strip()
 
         # Default to Google Chrome
-        executable = shlex.quote('/Applications/Google Chrome.app/Contents/MacOS/Google Chrome')
+        executable = shlex.quote(
+            "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
+        )
         log.debug(f"Browser executable: {executable}")
         return str(sh(f"{executable} --version")).strip()
 

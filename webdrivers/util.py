@@ -23,14 +23,18 @@ def rmf(filename):
 
 
 def sh(cmd):
-    result = subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
+    result = subprocess.run(
+        cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True
+    )
     if result.returncode > 0:
-        raise Exception(f"Failed to run shell command!\n"
-                        f"  command:   {cmd}\n"
-                        f"  exit code: {result.returncode}\n"
-                        f"  STDOUT:    {result.stdout}\n"
-                        f"  STDERR:    {result.stderr}")
-    return result.stdout.decode('utf-8')
+        raise Exception(
+            f"Failed to run shell command!\n"
+            f"  command:   {cmd}\n"
+            f"  exit code: {result.returncode}\n"
+            f"  STDOUT:    {result.stdout}\n"
+            f"  STDERR:    {result.stderr}"
+        )
+    return result.stdout.decode("utf-8")
 
 
 class HashableVersion(LooseVersion):
@@ -39,7 +43,7 @@ class HashableVersion(LooseVersion):
             super(HashableVersion, self).__init__(str(version))
 
     def __hash__(self):
-        return hash('.'.join(str(i) for i in self.version))
+        return hash(".".join(str(i) for i in self.version))
 
     def __repr__(self):
         return "HashableVersion ('%s')" % str(self)

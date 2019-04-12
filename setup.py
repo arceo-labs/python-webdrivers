@@ -12,9 +12,9 @@ except ImportError:
     from StringIO import StringIO as BytesIO
     from urllib2 import urlopen, URLError
 
-__author__ = 'Russell Snyder <ru.snyder@gmail.com>'
+__author__ = "Russell Snyder <ru.snyder@gmail.com>"
 
-with open('README.md') as readme_file:
+with open("README.md") as readme_file:
     long_description = readme_file.read()
 
 setup(
@@ -27,11 +27,7 @@ setup(
     keywords="chromedriver chrome browser selenium",
     url="https://github.com/arceo-labs/python-webdrivers",
     packages=["webdrivers"],
-    install_requires=[
-        'cssselect',
-        'lxml',
-        'selenium'
-    ],
+    install_requires=["cssselect", "lxml", "selenium"],
     long_description_content_type="text/markdown",
     long_description=long_description,
     classifiers=[
@@ -40,5 +36,5 @@ setup(
         "Topic :: System :: Installation/Setup",
         "Topic :: Software Development :: Libraries :: Python Modules",
         "License :: OSI Approved :: MIT License",
-    ]
+    ],
 )

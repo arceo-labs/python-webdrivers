@@ -6,6 +6,8 @@ verify_ssl = true
 [dev-packages]
 pytest = "*"
 pytest-cov = "*"
+black = "==19.3b0"
+prospector = {version = "*", extras = ["with-everything"]}
 
 [packages]
 cssselect = "*"
@@ -16,4 +18,6 @@ selenium = "*"
 python_version = "3.6"
 
 [scripts]
+check-format = "black --check setup.py webdrivers tests"
+lint = "prospector --no-autodetect --output-format pylint"
 test = "pytest --cov=webdrivers tests/"

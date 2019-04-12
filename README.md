@@ -1,5 +1,7 @@
 # Python Webdrivers
 
+[![Build Status](https://travis-ci.com/arceo-labs/python-webdrivers.svg?branch=master)](https://travis-ci.com/arceo-labs/python-webdrivers)
+
 _A shameless Python port of the much better Ruby library: https://github.com/titusfortner/webdrivers_
 
 ## Description
